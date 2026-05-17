@@ -1,0 +1,215 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* 🔥 全局强制透明，彻底解决背景遮挡问题 */
+html, body, #root {
+  width: 100vw;
+  height: 100vh;
+  background: transparent !important;
+  overflow: hidden;
+}
+
+body {
+  font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+
+/* 🔥 主容器无背景、无遮挡，让视频透出 */
+.app-container {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  background: transparent !important;
+}
+
+/* 左侧 3D 画布区域：透明，层级在视频之上 */
+.canvas-stage {
+  width: calc(100vw - 340px);
+  height: 100vh;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 1;
+  background: transparent !important;
+}
+
+.brand-overlay {
+  position: absolute;
+  top: 35px;
+  left: 40px;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.brand-overlay h1 {
+  font-size: 46px;
+  color: #D4AF37;
+  letter-spacing: 4px;
+  font-weight: 800;
+  text-shadow: 0 4px 15px rgba(212,175,55,0.4);
+}
+
+/* 右侧聊天面板：最高层级，不影响视频 */
+.right-chat-area {
+  width: 340px;
+  height: 100vh;
+  position: fixed;
+  right: 0;
+  top: 0;
+  background: rgba(8,13,24,0.85);
+  backdrop-filter: blur(15px);
+  padding: 30px 24px;
+  display: flex;
+  flex-direction: column;
+  z-index: 100;
+  border-left: 1px solid rgba(212,175,55,0.15);
+  box-shadow: -10px 0 30px rgba(0,0,0,0.4);
+}
+
+.right-chat-area h3 {
+  color: #fff;
+  font-size: 18px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+}
+
+.right-chat-area h3::before {
+  content: '';
+  width: 4px;
+  height: 16px;
+  background: #D4AF37;
+  border-radius: 2px;
+}
+
+.messages-box {
+  flex: 1;
+  overflow-y: auto;
+  margin-bottom: 20px;
+  padding-right: 4px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(212,175,55,0.5) transparent;
+}
+
+.messages-box::-webkit-scrollbar {
+  width: 4px;
+}
+
+.messages-box::-webkit-scrollbar-thumb {
+  background: rgba(212,175,55,0.5);
+  border-radius: 2px;
+}
+
+.msg-bubble {
+  padding: 12px 16px;
+  border-radius: 14px;
+  margin-bottom: 14px;
+  font-size: 14px;
+  line-height: 1.6;
+  max-width: 85%;
+  animation: slideUp 0.3s ease forwards;
+}
+
+.msg-bubble.user {
+  background: rgba(212,175,55,0.15);
+  color: #fff;
+  border: 1px solid rgba(212,175,55,0.25);
+  margin-left: auto;
+  border-bottom-right-radius: 2px;
+}
+
+.msg-bubble.assistant {
+  background: rgba(255,255,255,0.05);
+  color: #E2E8F0;
+  border: 1px solid rgba(255,255,255,0.06);
+  margin-right: auto;
+  border-top-left-radius: 2px;
+}
+
+.msg-translation {
+  display: block;
+  font-size: 11px;
+  color: #8BA0B2;
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px dashed rgba(255,255,255,0.08);
+}
+
+.input-wrap {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.input-wrap input {
+  flex: 1;
+  padding: 12px 14px;
+  background: rgba(0,0,0,0.4);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: #fff;
+  border-radius: 10px;
+  outline: none;
+  transition: all 0.2s;
+}
+
+.input-wrap input:focus {
+  border-color: #D4AF37;
+  box-shadow: 0 0 10px rgba(212,175,55,0.2);
+}
+
+.input-wrap button {
+  padding: 0 20px;
+  background: #D4AF37;
+  border: none;
+  border-radius: 10px;
+  color: #000;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.input-wrap button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(212,175,55,0.3);
+}
+
+.button-group {
+  display: flex;
+  gap: 8px;
+}
+
+.button-group button {
+  flex: 1;
+  padding: 10px;
+  background: transparent;
+  border: 1px solid rgba(212,175,55,0.3);
+  color: #D4AF37;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.2s;
+}
+
+.button-group button:hover {
+  background: rgba(212,175,55,0.08);
+  transform: translateY(-1px);
+}
+
+.button-group button:active {
+  transform: translateY(0);
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
