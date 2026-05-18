@@ -39,9 +39,9 @@ export default function ChatPanel({ setIsTalking, setCurrentAction, langMode }) 
     {
       role: "assistant",
       text:
-        langMode === "en"
-          ? "Welcome to Luoyang! I am Yu Xiaotong."
-          : "中不中？欢迎来到神都洛阳！我是豫小通。",
+         langMode === "en"
+        ? "Welcome to Henan! I'm Yu Xiaotong, your personal tour guide."
+        : "中不中？欢迎来河南！我是豫小通，你的专属向导",
     },
   ]);
   const [input, setInput] = useState("");
