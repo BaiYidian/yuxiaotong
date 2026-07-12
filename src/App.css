@@ -1,22 +1,27 @@
+/* src/App.css */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-/* 🔥 全局强制透明，彻底解决背景遮挡问题 */
+:root {
+  --cultural-gold: #D4AF37;
+  --cultural-gold-dim: rgba(212, 175, 55, 0.3);
+  --glass-bg: rgba(15, 15, 20, 0.45);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --text-main: #FFFFFF;
+}
+
 html, body, #root {
   width: 100vw;
   height: 100vh;
   background: transparent !important;
   overflow: hidden;
+  font-family: "PingFang SC", "Noto Serif SC", serif;
+  color: var(--text-main);
 }
 
-body {
-  font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
-}
-
-/* 🔥 主容器无背景、无遮挡，让视频透出 */
 .app-container {
   width: 100vw;
   height: 100vh;
@@ -24,192 +29,187 @@ body {
   background: transparent !important;
 }
 
-/* 左侧 3D 画布区域：透明，层级在视频之上 */
-.canvas-stage {
-  width: calc(100vw - 340px);
-  height: 100vh;
-  position: absolute;
-  left: 0;
-  top: 0;
-  z-index: 1;
-  background: transparent !important;
+/* --- 通用磨砂玻璃面板 --- */
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+  transition: all 0.3s ease;
 }
 
-.brand-overlay {
+/* --- 左侧聊天面板 --- */
+.chat-panel {
   position: absolute;
-  top: 35px;
-  left: 40px;
+  left: 30px;
+  bottom: 30px;
+  width: 380px;
+  height: 520px;
   z-index: 10;
-  pointer-events: none;
-}
-
-.brand-overlay h1 {
-  font-size: 46px;
-  color: #D4AF37;
-  letter-spacing: 4px;
-  font-weight: 800;
-  text-shadow: 0 4px 15px rgba(212,175,55,0.4);
-}
-
-/* 右侧聊天面板：最高层级，不影响视频 */
-.right-chat-area {
-  width: 340px;
-  height: 100vh;
-  position: fixed;
-  right: 0;
-  top: 0;
-  background: rgba(8,13,24,0.85);
-  backdrop-filter: blur(15px);
-  padding: 30px 24px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
-  z-index: 100;
-  border-left: 1px solid rgba(212,175,55,0.15);
-  box-shadow: -10px 0 30px rgba(0,0,0,0.4);
 }
 
-.right-chat-area h3 {
-  color: #fff;
-  font-size: 18px;
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-weight: 600;
-}
-
-.right-chat-area h3::before {
-  content: '';
-  width: 4px;
-  height: 16px;
-  background: #D4AF37;
-  border-radius: 2px;
+.chat-panel h3 {
+  color: var(--cultural-gold);
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 1.3rem;
+  border-bottom: 1px solid var(--glass-border);
+  padding-bottom: 10px;
+  letter-spacing: 2px;
 }
 
 .messages-box {
   flex: 1;
   overflow-y: auto;
-  margin-bottom: 20px;
-  padding-right: 4px;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(212,175,55,0.5) transparent;
+  margin-bottom: 15px;
+  padding-right: 5px;
+  scroll-behavior: smooth; /* 优化：平滑滚动 */
 }
 
-.messages-box::-webkit-scrollbar {
-  width: 4px;
-}
-
-.messages-box::-webkit-scrollbar-thumb {
-  background: rgba(212,175,55,0.5);
-  border-radius: 2px;
-}
+.messages-box::-webkit-scrollbar { width: 4px; }
+.messages-box::-webkit-scrollbar-thumb { background: var(--glass-border); border-radius: 2px; }
 
 .msg-bubble {
-  padding: 12px 16px;
-  border-radius: 14px;
-  margin-bottom: 14px;
-  font-size: 14px;
-  line-height: 1.6;
   max-width: 85%;
-  animation: slideUp 0.3s ease forwards;
+  margin-bottom: 12px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  letter-spacing: 0.5px;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
 }
 
 .msg-bubble.user {
-  background: rgba(212,175,55,0.15);
-  color: #fff;
-  border: 1px solid rgba(212,175,55,0.25);
+  background: linear-gradient(135deg, rgba(212,175,55,0.8), rgba(184,150,40,0.8));
+  color: #000;
+  align-self: flex-end;
   margin-left: auto;
-  border-bottom-right-radius: 2px;
+  border-top-right-radius: 2px;
+  text-shadow: none;
 }
 
 .msg-bubble.assistant {
-  background: rgba(255,255,255,0.05);
-  color: #E2E8F0;
-  border: 1px solid rgba(255,255,255,0.06);
-  margin-right: auto;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--glass-border);
+  color: #fff;
+  align-self: flex-start;
   border-top-left-radius: 2px;
 }
 
-.msg-translation {
-  display: block;
-  font-size: 11px;
-  color: #8BA0B2;
-  margin-top: 6px;
-  padding-top: 6px;
-  border-top: 1px dashed rgba(255,255,255,0.08);
-}
-
+/* --- 输入区与按钮 --- */
 .input-wrap {
   display: flex;
   gap: 10px;
-  margin-bottom: 15px;
+  margin-bottom: 12px;
 }
 
 .input-wrap input {
   flex: 1;
-  padding: 12px 14px;
-  background: rgba(0,0,0,0.4);
-  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--glass-border);
   color: #fff;
-  border-radius: 10px;
+  padding: 10px 14px;
+  border-radius: 8px;
   outline: none;
   transition: all 0.2s;
 }
 
 .input-wrap input:focus {
-  border-color: #D4AF37;
-  box-shadow: 0 0 10px rgba(212,175,55,0.2);
+  border-color: var(--cultural-gold);
+  box-shadow: 0 0 10px var(--cultural-gold-dim);
 }
 
-.input-wrap button {
-  padding: 0 20px;
-  background: #D4AF37;
-  border: none;
-  border-radius: 10px;
-  color: #000;
-  font-weight: bold;
+.cultural-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--glass-border);
+  color: var(--cultural-gold);
+  padding: 8px 15px;
+  border-radius: 8px;
   cursor: pointer;
+  font-weight: bold;
   transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.input-wrap button:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(212,175,55,0.3);
+.cultural-btn:hover {
+  background: var(--cultural-gold-dim);
+  border-color: var(--cultural-gold);
+}
+
+.cultural-btn.primary {
+  background: var(--cultural-gold);
+  color: #000;
 }
 
 .button-group {
   display: flex;
-  gap: 8px;
+  gap: 10px;
 }
+.button-group button { flex: 1; }
 
-.button-group button {
-  flex: 1;
-  padding: 10px;
-  background: transparent;
-  border: 1px solid rgba(212,175,55,0.3);
-  color: #D4AF37;
-  border-radius: 8px;
+/* --- 龙门石窟展示模块 --- */
+.longmen-trigger-badge {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  width: 56px;
+  height: 56px;
+  z-index: 10;
   cursor: pointer;
-  font-size: 13px;
-  transition: all 0.2s;
+  border-radius: 50%;
+  border: 2px solid var(--cultural-gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--cultural-gold);
+  font-weight: bold;
+  font-size: 0.9rem;
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 20px var(--cultural-gold-dim);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.button-group button:hover {
-  background: rgba(212,175,55,0.08);
-  transform: translateY(-1px);
+.longmen-trigger-badge:hover {
+  transform: scale(1.1) rotate(5deg);
+  box-shadow: 0 0 30px rgba(212, 175, 55, 0.6);
 }
 
-.button-group button:active {
-  transform: translateY(0);
+.longmen-showcase-panel {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  width: 380px;
+  z-index: 11;
+  padding: 0;
+  overflow: hidden;
+  transform-origin: top right;
+  animation: fanOpen 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+@keyframes fanOpen {
+  from { transform: scale(0.5) rotate(10deg); opacity: 0; }
+  to { transform: scale(1) rotate(0deg); opacity: 1; }
 }
+
+.showcase-header { position: relative; height: 180px; }
+.showcase-header img { width: 100%; height: 100%; object-fit: cover; }
+.showcase-close-btn {
+  position: absolute; top: 10px; right: 10px;
+  background: rgba(0,0,0,0.6); border: none; color: #fff;
+  width: 30px; height: 30px; border-radius: 50%;
+  cursor: pointer; font-size: 1.2rem; display: flex;
+  align-items: center; justify-content: center;
+}
+
+.showcase-body { padding: 20px; }
+.showcase-body h2 { color: var(--cultural-gold); margin: 0 0 10px 0; font-size: 1.4rem; }
+.showcase-body p { color: #ddd; font-size: 0.9rem; line-height: 1.6; margin-bottom: 20px; }
